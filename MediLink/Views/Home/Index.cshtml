@@ -1,0 +1,171 @@
+﻿@model List<MediLink.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="home-hero-section text-white">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h1 class="fw-bold display-5 mb-3">Book Appointment<br />With Trusted Doctors</h1>
+            <p class="mb-4 hero-subtext">
+                Simply browse through our extensive list of trusted doctors,
+                schedule your appointment hassle-free.
+            </p>
+
+            @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+            {
+                <a asp-controller="Appointments" asp-action="Create" class="btn btn-light rounded-pill px-4">Book Appointment →</a>
+            }
+            else if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Doctor"))
+            {
+                <a asp-controller="Dashboard" asp-action="DoctorDashboard" class="btn btn-light rounded-pill px-4">Go to Dashboard →</a>
+            }
+            else if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <a asp-controller="Dashboard" asp-action="AdminDashboard" class="btn btn-light rounded-pill px-4">Go to Dashboard →</a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="RegisterPatient" class="btn btn-light rounded-pill px-4">Book Appointment →</a>
+            }
+        </div>
+    </div>
+</div>
+
+<section class="text-center mt-5">
+    <h2 class="fw-bold">Find by Speciality</h2>
+    <p class="text-muted small mb-4">
+        Simply browse through our extensive list of trusted doctors, schedule your appointment hassle-free.
+    </p>
+
+    <div class="row justify-content-center g-4 speciality-row">
+        <div class="col-4 col-md-2">
+            <div class="speciality-card">
+                <div class="speciality-icon">👨‍⚕️</div>
+                <p>General physician</p>
+            </div>
+        </div>
+        <div class="col-4 col-md-2">
+            <div class="speciality-card">
+                <div class="speciality-icon">🩺</div>
+                <p>Gynecologist</p>
+            </div>
+        </div>
+        <div class="col-4 col-md-2">
+            <div class="speciality-card">
+                <div class="speciality-icon">🧑‍⚕️</div>
+                <p>Dermatologist</p>
+            </div>
+        </div>
+        <div class="col-4 col-md-2">
+            <div class="speciality-card">
+                <div class="speciality-icon">👶</div>
+                <p>Pediatricians</p>
+            </div>
+        </div>
+        <div class="col-4 col-md-2">
+            <div class="speciality-card">
+                <div class="speciality-icon">🧠</div>
+                <p>Neurologist</p>
+            </div>
+        </div>
+        <div class="col-4 col-md-2">
+            <div class="speciality-card">
+                <div class="speciality-icon">🩻</div>
+                <p>Gastroenterologist</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="text-center mt-5">
+    <h2 class="fw-bold">Top Doctors to Book</h2>
+    <p class="text-muted small mb-4">
+        Simply browse through our extensive list of trusted doctors.
+    </p>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var doctor in Model.Take(5))
+            {
+                <div class="col-md-4 col-lg-2">
+                    <div class="card doctor-home-card shadow-sm h-100">
+                        <div class="doctor-home-top">
+                            <div class="doctor-avatar large-avatar mx-auto">
+                                <span>@doctor.FirstName.Substring(0, 1)@doctor.LastName.Substring(0, 1)</span>
+                            </div>
+                        </div>
+
+                        <div class="card-body text-start">
+                            <p class="small text-success mb-1">● @(doctor.IsAvailable ? "Available" : "Unavailable")</p>
+                            <h6 class="fw-bold mb-1">Dr. @doctor.FirstName @doctor.LastName</h6>
+                            <p class="text-muted small mb-0">@doctor.Specialization</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="mt-4">
+            <a asp-controller="Doctors" asp-action="Index" class="btn btn-light border rounded-pill px-4">more</a>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">No doctors available yet.</p>
+    }
+</section>
+
+<section class="bottom-cta-section text-white mt-5">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            <h2 class="fw-bold mb-3">Book Appointment</h2>
+            <h2 class="fw-bold mb-4">With 100+ Trusted Doctors</h2>
+
+            @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Patient"))
+            {
+                <a asp-controller="Appointments" asp-action="Create" class="btn btn-light rounded-pill px-4">Book Appointment</a>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="RegisterPatient" class="btn btn-light rounded-pill px-4">Create account</a>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="custom-footer-section mt-5">
+    <div class="row">
+        <div class="col-md-5 mb-4">
+            <h4 class="text-primary fw-bold">MediLink</h4>
+            <p class="text-muted small">
+                MediLink is committed to excellence in healthcare technology. We continuously strive to enhance our platform,
+                integrating the latest advancements to improve user experience and deliver superior service.
+                Whether you’re booking your first appointment or managing ongoing care, MediLink is here to support you every step of the way.
+            </p>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <h6 class="fw-bold">COMPANY</h6>
+            <ul class="list-unstyled small text-muted">
+                <li><a asp-controller="Home" asp-action="Index" class="footer-link">Home</a></li>
+                <li><a asp-controller="Home" asp-action="About" class="footer-link">About us</a></li>
+                <li><a asp-controller="Home" asp-action="Contact" class="footer-link">Contact us</a></li>
+                <li><a href="#" class="footer-link">Privacy policy</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <h6 class="fw-bold">GET IN TOUCH</h6>
+            <ul class="list-unstyled small text-muted">
+                <li>012 456 7890</li>
+                <li>medilink@gmail.com</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr />
+    <p class="text-center small text-muted mb-0">Copyright © 2026 MediLink - All Right Reserved.</p>
+</section>

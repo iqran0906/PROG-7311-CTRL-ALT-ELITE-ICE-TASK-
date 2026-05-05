@@ -1,0 +1,41 @@
+﻿@model List<MediLink.Models.Patient>
+
+@{
+    ViewData["Title"] = "Patients";
+}
+
+<h2 class="mb-4">Patients</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Patient</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Date of Birth</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model)
+        {
+            <tr>
+                <td>@patient.FirstName</td>
+                <td>@patient.LastName</td>
+                <td>@patient.Email</td>
+                <td>@patient.PhoneNumber</td>
+                <td>@patient.DateOfBirth.ToShortDateString()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@patient.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@patient.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

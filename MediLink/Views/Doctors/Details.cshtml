@@ -1,0 +1,44 @@
+﻿@model MediLink.Models.Doctor
+
+@{
+    ViewData["Title"] = "Doctor Details";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <div class="doctor-avatar large-avatar mx-auto mb-3">
+                        <span>@Model.FirstName.Substring(0, 1)@Model.LastName.Substring(0, 1)</span>
+                    </div>
+                    <h2 class="fw-bold">Dr. @Model.FirstName @Model.LastName</h2>
+                    <p class="text-muted">@Model.Specialization</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Email:</strong> @Model.Email</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <strong>Availability:</strong>
+                            @if (Model.IsAvailable)
+                            {
+                                <span class="badge bg-success">Available</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Unavailable</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">Back to Doctors</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

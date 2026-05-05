@@ -1,0 +1,22 @@
+﻿@model MediLink.Models.Appointment
+
+@{
+    ViewData["Title"] = "Cancel Appointment";
+}
+
+<div class="mt-4">
+    <h3 class="text-danger">Cancel Appointment</h3>
+    <hr />
+
+    <p>Are you sure you want to cancel this appointment?</p>
+
+    <p><strong>Doctor:</strong> Dr. @Model.Doctor?.FirstName @Model.Doctor?.LastName</p>
+    <p><strong>Date:</strong> @Model.AppointmentDate.ToString("f")</p>
+
+    <form asp-action="Cancel" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn btn-danger">Yes, Cancel</button>
+        <a asp-controller="Dashboard" asp-action="MyAppointments" class="btn btn-secondary">Back</a>
+    </form>
+</div>

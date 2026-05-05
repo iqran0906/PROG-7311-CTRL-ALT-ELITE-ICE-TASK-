@@ -1,0 +1,52 @@
+﻿@model List<MediLink.Dtos.DrugInfoDto>
+
+@{
+    ViewData["Title"] = "Drug Search Results";
+}
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-9">
+        <div class="card shadow-sm p-4">
+            <h3 class="text-primary mb-4">Results for "@ViewBag.SearchTerm"</h3>
+
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">No drug information found.</div>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="card shadow-sm mb-3">
+                        <div class="card-body">
+                            <h5 class="fw-bold text-primary">@item.BrandName</h5>
+                            <p><strong>Generic Name:</strong> @item.GenericName</p>
+                            <p><strong>Labeler Name:</strong> @item.LabelerName</p>
+                            <p><strong>Product NDC:</strong> @item.ProductNdc</p>
+
+                            <h6 class="mt-3">Active Ingredients</h6>
+
+                            @if (item.ActiveIngredients.Any())
+                            {
+                                <ul>
+                                    @foreach (var ingredient in item.ActiveIngredients)
+                                    {
+                                        <li><strong>@ingredient.Name</strong> - @ingredient.Strength</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <p class="text-muted">No active ingredients listed.</p>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="text-center mt-3">
+                <a asp-action="Index" class="btn btn-secondary">Back to Search</a>
+            </div>
+        </div>
+    </div>
+</div>

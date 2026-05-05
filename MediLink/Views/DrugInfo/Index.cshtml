@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Drug Information Search";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-7">
+        <div class="card shadow-lg p-4">
+            <h3 class="text-primary text-center mb-4">Drug Information Search</h3>
+
+            <form asp-action="Search" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label class="form-label">Drug Name</label>
+                    <input type="text" name="drugName" class="form-control" placeholder="Enter a drug name, for example advil" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Search Drug</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="text-center mb-5">
+    <h2 class="fw-bold text-primary">Choose Login Type</h2>
+    <p class="text-muted">Select how you want to access MediLink.</p>
+</div>
+
+<div class="row justify-content-center g-4">
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-4 h-100 choice-card">
+            <div class="choice-icon bg-primary-subtle text-primary mx-auto mb-3">P</div>
+            <h5>Patient</h5>
+            <p class="text-muted small">Access your profile, appointments, and available doctors.</p>
+            <a asp-action="LoginPatient" class="btn btn-primary w-100 mt-2">Patient Login</a>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-4 h-100 choice-card">
+            <div class="choice-icon bg-success-subtle text-success mx-auto mb-3">D</div>
+            <h5>Doctor</h5>
+            <p class="text-muted small">View your profile and manage your appointments.</p>
+            <a asp-action="LoginDoctor" class="btn btn-success w-100 mt-2">Doctor Login</a>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card shadow-sm text-center p-4 h-100 choice-card">
+            <div class="choice-icon bg-dark-subtle text-dark mx-auto mb-3">A</div>
+            <h5>Admin</h5>
+            <p class="text-muted small">Manage doctors, patients, and appointments.</p>
+            <a asp-action="LoginAdmin" class="btn btn-dark w-100 mt-2">Admin Login</a>
+        </div>
+    </div>
+</div>

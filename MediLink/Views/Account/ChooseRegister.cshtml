@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg p-5 text-center">
+            <h2 class="fw-bold text-primary mb-3">Create a Patient Account</h2>
+            <p class="text-muted mb-4">
+                Register as a patient to book appointments and manage your healthcare with MediLink.
+            </p>
+
+            <a asp-action="RegisterPatient" class="btn btn-primary btn-lg w-100">Register as Patient</a>
+
+            <div class="mt-4">
+                <a asp-action="ChooseLogin">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@model MediLink.ViewModels.PatientDashboardViewModel
+
+@{
+    ViewData["Title"] = "My Appointments";
+}
+
+<div class="appointments-page-wrapper">
+    <h3 class="appointments-page-title">My Appointments</h3>
+    <hr />
+
+    @if (Model.Appointments.Any())
+    {
+        @foreach (var appointment in Model.Appointments)
+        {
+            <div class="appointment-mockup-card">
+                <div class="appointment-left">
+                    <div class="appointment-doctor-avatar">
+                        <span>@appointment.Doctor?.FirstName?.Substring(0, 1)@appointment.Doctor?.LastName?.Substring(0, 1)</span>
+                    </div>
+                </div>
+
+                <div class="appointment-middle">
+                    <h5 class="appointment-doctor-name">Dr. @appointment.Doctor?.FirstName @appointment.Doctor?.LastName</h5>
+                    <p class="appointment-speciality mb-1">@appointment.Doctor?.Specialization</p>
+
+                  
+
+                   <p class="appointment-datetime mb-0">
+                        <strong>Date &amp; Time:</strong> @appointment.AppointmentDate.ToString("dd MMMM, yyyy | h:mm tt")
+                    </p>
+                </div>
+
+                <div class="appointment-right">
+                    @if (appointment.Status == "Completed")
+                    {
+                        <button class="btn btn-paid-status" disabled>Completed</button>
+                    }
+
+                    <a asp-controller="Appointments" asp-action="Cancel" asp-route-id="@appointment.Id" class="btn btn-cancel-appointment">
+                        Cancel appointment
+                    </a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="alert alert-info">You do not have any appointments yet.</div>
+    }
+</div>

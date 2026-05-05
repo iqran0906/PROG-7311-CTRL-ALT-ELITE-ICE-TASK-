@@ -1,0 +1,181 @@
+﻿@model MediLink.ViewModels.AdminDashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold text-dark mb-1">Admin Dashboard</h2>
+        <p class="text-muted mb-0">Manage doctors, patients, and appointments.</p>
+    </div>
+
+    <div>
+        <a asp-controller="Appointments" asp-action="Create" class="btn btn-primary me-2">Add Appointment</a>
+        <a asp-controller="Doctors" asp-action="Create" class="btn btn-success">Add Doctor</a>
+    </div>
+</div>
+
+<div class="mb-4">
+    <a asp-controller="Doctors" asp-action="Index" class="btn btn-outline-primary me-2">Doctors Page</a>
+    <a asp-controller="Patients" asp-action="Index" class="btn btn-outline-dark me-2">Patients Page</a>
+    <a asp-controller="Appointments" asp-action="Index" class="btn btn-outline-success">Appointments Page</a>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center dashboard-stat-card">
+            <h6 class="text-muted">Appointments</h6>
+            <h3 class="fw-bold text-primary">@Model.Appointments.Count</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center dashboard-stat-card">
+            <h6 class="text-muted">Doctors</h6>
+            <h3 class="fw-bold text-success">@Model.Doctors.Count</h3>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm p-3 text-center dashboard-stat-card">
+            <h6 class="text-muted">Patients</h6>
+            <h3 class="fw-bold text-dark">@Model.Patients.Count</h3>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h4 class="mb-0">All Appointments</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Appointments.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Specialization</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in Model.Appointments)
+                        {
+                            <tr>
+                                <td>@appointment.AppointmentDate.ToString("f")</td>
+                                <td><span class="badge bg-primary">@appointment.Status</span></td>
+                                <td>@appointment.Patient?.FirstName @appointment.Patient?.LastName</td>
+                                <td>@appointment.Doctor?.FirstName @appointment.Doctor?.LastName</td>
+                                <td>@appointment.Doctor?.Specialization</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">No appointments found.</p>
+        }
+    </div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h4 class="mb-0">Doctors</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Doctors.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Specialization</th>
+                            <th>Email</th>
+                            <th>Availability</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var doctor in Model.Doctors)
+                        {
+                            <tr>
+                                <td>@doctor.FirstName @doctor.LastName</td>
+                                <td>@doctor.Specialization</td>
+                                <td>@doctor.Email</td>
+                                <td>
+                                    @if (doctor.IsAvailable)
+                                    {
+                                        <span class="badge bg-success">Available</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Unavailable</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-controller="Doctors" asp-action="Details" asp-route-id="@doctor.Id" class="btn btn-sm btn-info">Details</a>
+                                    <a asp-controller="Doctors" asp-action="Delete" asp-route-id="@doctor.Id" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">No doctors found.</p>
+        }
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <h4 class="mb-0">Patients</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Patients.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Date of Birth</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var patient in Model.Patients)
+                        {
+                            <tr>
+                                <td>@patient.FirstName @patient.LastName</td>
+                                <td>@patient.Email</td>
+                                <td>@patient.PhoneNumber</td>
+                                <td>@patient.DateOfBirth.ToShortDateString()</td>
+                                <td>
+                                    <a asp-controller="Patients" asp-action="Details" asp-route-id="@patient.Id" class="btn btn-sm btn-info">Details</a>
+                                    <a asp-controller="Patients" asp-action="Delete" asp-route-id="@patient.Id" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">No patients found.</p>
+        }
+    </div>
+</div>

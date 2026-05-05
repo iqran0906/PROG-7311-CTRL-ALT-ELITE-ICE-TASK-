@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  medilink:
+    image: ${DOCKER_REGISTRY-}medilink
+    build:
+      context: .
+      dockerfile: MediLink/Dockerfile
+    depends_on:
+      - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=MediLinkDb;User Id=sa;Password=Your_password123;TrustServerCertificate=True;
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Your_password123
+    ports:
+
+     - "15000:1433"

@@ -1,0 +1,60 @@
+﻿@model List<MediLink.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Doctors";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold text-primary mb-1">Doctors</h2>
+        <p class="text-muted mb-0">View and manage doctor profiles.</p>
+    </div>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-success">Add Doctor</a>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No doctors found.</div>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var doctor in Model)
+        {
+            <div class="col-md-4 col-lg-3">
+                <div class="card shadow-sm doctor-card h-100">
+                    <div class="card-body text-center">
+                        <div class="doctor-avatar mb-3">
+                            <span>@doctor.FirstName.Substring(0, 1)@doctor.LastName.Substring(0, 1)</span>
+                        </div>
+
+                        <h5 class="mb-1">Dr. @doctor.FirstName @doctor.LastName</h5>
+                        <p class="text-muted mb-2">@doctor.Specialization</p>
+
+                        @if (doctor.IsAvailable)
+                        {
+                            <span class="badge bg-success mb-3">Available</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary mb-3">Unavailable</span>
+                        }
+
+                        <div class="d-grid gap-2">
+                            <a asp-action="Details" asp-route-id="@doctor.Id" class="btn btn-outline-primary btn-sm">View Details</a>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Delete" asp-route-id="@doctor.Id" class="btn btn-outline-danger btn-sm">Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

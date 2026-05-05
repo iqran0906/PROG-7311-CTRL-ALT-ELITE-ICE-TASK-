@@ -1,0 +1,96 @@
+﻿@model MediLink.ViewModels.DoctorDashboardViewModel
+
+@{
+    ViewData["Title"] = "Doctor Profile";
+}
+
+<div class="doctor-profile-wrapper">
+    @if (Model.Doctor != null)
+    {
+        <div class="doctor-profile-card">
+            <div class="doctor-profile-top">
+                <div class="doctor-profile-avatar">
+                    <span>@Model.Doctor.FirstName.Substring(0, 1)@Model.Doctor.LastName.Substring(0, 1)</span>
+                </div>
+
+                <h2 class="doctor-profile-name">@Model.Doctor.FirstName @Model.Doctor.LastName</h2>
+            </div>
+
+            <hr />
+
+            <div class="doctor-profile-section">
+                <h6 class="doctor-section-title">CONTACT INFORMATION</h6>
+
+                <div class="doctor-info-row">
+                    <span class="doctor-info-label">Email id:</span>
+                    <span class="doctor-info-value">@Model.Doctor.Email</span>
+                </div>
+
+            </div>
+
+            <div class="doctor-profile-section mt-4">
+                <h6 class="doctor-section-title">BASIC INFORMATION</h6>
+
+                <div class="doctor-info-row">
+                    <span class="doctor-info-label">Specialization:</span>
+                    <span class="doctor-info-value">@Model.Doctor.Specialization</span>
+                </div>
+
+                <div class="doctor-info-row">
+                    <span class="doctor-info-label">Availability:</span>
+                    <span class="doctor-info-value">@(Model.Doctor.IsAvailable ? "Available" : "Unavailable")</span>
+                </div>
+
+                <div class="doctor-info-row">
+                    <span class="doctor-info-label">Role:</span>
+                    <span class="doctor-info-value">Doctor</span>
+                </div>
+            </div>
+
+            <div class="doctor-profile-actions mt-4">
+                <a href="#" class="btn btn-outline-primary rounded-pill px-4">Edit</a>
+                <a href="#" class="btn btn-outline-secondary rounded-pill px-4 ms-2">Save information</a>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="card shadow-sm mt-5">
+    <div class="card-header bg-white">
+        <h4 class="mb-0">My Appointments</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Appointments.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Patient</th>
+                            <th>Patient Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var appointment in Model.Appointments)
+                        {
+                            <tr>
+                                <td>@appointment.AppointmentDate.ToString("f")</td>
+                                <td>
+                                    <span class="badge bg-success">@appointment.Status</span>
+                                </td>
+                                <td>@appointment.Patient?.FirstName @appointment.Patient?.LastName</td>
+                                <td>@appointment.Patient?.Email</td>
+                            </tr> 
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">You do not have any appointments yet.</p>
+        }
+    </div>
+</div>
