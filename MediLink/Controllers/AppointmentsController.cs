@@ -26,6 +26,9 @@ namespace MediLink.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+
+        // Displays the details page for a specific appointment.
+        // The appointment ID is used to retrieve the correct appointment record.
         public async Task<IActionResult> Details(int id)
         {
             var appointment = await _appointmentService.GetAppointmentByIdAsync(id);
@@ -51,6 +54,8 @@ namespace MediLink.Controllers
             return View();
         }
 
+        // Handles the submitted appointment creation form.
+        // Only Admin and Patient users can create appointments.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Patient")]
@@ -120,11 +125,16 @@ namespace MediLink.Controllers
             return View(appointment);
         }
 
+        // Handles the submitted appointment edit form.
+        // Only Admin users are allowed to update appointment details.
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(Appointment appointment)
         {
+            // Checks whether the updated appointment form passed validation.
+            // If validation fails, the patient and doctor dropdown lists are loaded again
+            // before returning the user to the edit page.
             if (!ModelState.IsValid)
             {
                 ViewBag.Patients = await _appointmentService.GetPatientSelectListAsync();
@@ -146,6 +156,7 @@ namespace MediLink.Controllers
             }
         }
 
+        // Only Admin users are allowed to access the appointment delete page.
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -159,6 +170,8 @@ namespace MediLink.Controllers
             return View(appointment);
         }
 
+        // Handles the final delete confirmation after the Admin confirms they want to remove the appointment.
+        // ActionName("Delete") allows this method to respond to the Delete form post.
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
@@ -177,7 +190,8 @@ namespace MediLink.Controllers
             }
         }
 
-            [Authorize(Roles = "Patient")]
+        // Only Patient users are allowed to cancel their own appointments.
+        [Authorize(Roles = "Patient")]
            
             public async Task<IActionResult> Cancel(int id)
             {
@@ -198,7 +212,9 @@ namespace MediLink.Controllers
                 return View(appointment);
             }
 
-            [HttpPost, ActionName("Cancel")]
+        // Handles the final cancellation after the patient confirms they want to cancel the appointment.
+        // ActionName("Cancel") allows this method to respond to the Cancel form post.
+        [HttpPost, ActionName("Cancel")]
             [ValidateAntiForgeryToken]
             [Authorize(Roles = "Patient")]
             public async Task<IActionResult> CancelConfirmed(int id)

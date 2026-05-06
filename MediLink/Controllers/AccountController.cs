@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MediLink.Controllers
 {
+    // This controller handles account-related pages and actions,
+    // such as choosing a registration type, logging in, and registering patients.
     public class AccountController : Controller
     {
         private readonly IAuthService _authService;
@@ -16,21 +18,26 @@ namespace MediLink.Controllers
             _authService = authService;
         }
 
+        // Displays the page where the user can choose which type of account to register.
         public IActionResult ChooseRegister()
         {
             return View();
         }
 
+        // Displays the login page where users can enter their login details.
         public IActionResult ChooseLogin()
         {
             return View();
         }
 
+        // Displays the patient registration form.
         public IActionResult RegisterPatient()
         {
             return View();
         }
 
+        // Handles the submitted patient registration form.
+        // The ValidateAntiForgeryToken attribute helps protect the form from CSRF attacks.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterPatient(RegisterPatientViewModel model)
@@ -84,6 +91,8 @@ namespace MediLink.Controllers
             return View();
         }
 
+        // Handles the doctor login form after the user submits their email and password.
+        // The ValidateAntiForgeryToken attribute helps protect the login form from CSRF attacks.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginDoctor(LoginViewModel model)
@@ -110,6 +119,8 @@ namespace MediLink.Controllers
             return View();
         }
 
+        // Handles the admin login form after the user submits their login details.
+        // This uses anti-forgery validation to protect the form submission.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginAdmin(LoginViewModel model)
