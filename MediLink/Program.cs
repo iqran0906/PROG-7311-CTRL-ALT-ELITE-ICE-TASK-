@@ -104,7 +104,7 @@ namespace MediLink
 
                             context.Doctors.Add(doctor);
                             context.SaveChanges();
-
+                            //Doctor email and Password
                             var doctorUser = new MediLink.Models.User
                             {
                                 Email = "john@medilink.com",
